@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\FrameProviders">
+      <UniqueIdentifier>{1f516b6d-adae-476d-970b-35e6a4aed04b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FrameProviders">
+      <UniqueIdentifier>{ac3874ad-cbb6-4486-8aac-93293482b69e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\shaders">
+      <UniqueIdentifier>{5e2ea272-35cc-4aa6-a53a-4799c553d7fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FrameProviders\Effects">
+      <UniqueIdentifier>{d5fc4c4f-1d13-44a2-a415-845bc3dec324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FrameProviders\Effects">
+      <UniqueIdentifier>{85ce1729-6fa1-4d46-ae5c-7ab35795cc3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Frames">
+      <UniqueIdentifier>{27816d3c-bdf4-48fe-9749-d348dd984e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Frames">
+      <UniqueIdentifier>{13005964-19b6-4103-96f5-7748a5aa0a16}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dxc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugFrameProvider.h">
+      <Filter>Header Files\FrameProviders</Filter>
+    </ClInclude>
+    <ClInclude Include="WebcamFrameProvider.h">
+      <Filter>Header Files\FrameProviders</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaFoundation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaFoundationDebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameProvider.h">
+      <Filter>Header Files\FrameProviders</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Header Files\FrameProviders\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Header Files\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="BGRAFrame.h">
+      <Filter>Header Files\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugEffect.h">
+      <Filter>Header Files\FrameProviders\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="YUVFrame.h">
+      <Filter>Header Files\Frames</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dxc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugFrameProvider.cpp">
+      <Filter>Source Files\FrameProviders</Filter>
+    </ClCompile>
+    <ClCompile Include="WebcamFrameProvider.cpp">
+      <Filter>Source Files\FrameProviders</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaFoundation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaFoundationDebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BGRAFrame.cpp">
+      <Filter>Source Files\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugEffect.cpp">
+      <Filter>Source Files\FrameProviders\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="YUVFrame.cpp">
+      <Filter>Source Files\Frames</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dxc.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="dxc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="basic_mixer.shader">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="debug_blue.shader">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="yuy2_to_bgra.shader">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,14 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dxc", "dxc\dxc.vcxproj", "{20CAEBE5-A7EB-4224-827E-D03E9D30F0C1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B305ABA2-57F4-499A-A7B3-4C7866245CDB} = {B305ABA2-57F4-499A-A7B3-4C7866245CDB}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A422783C-3AC5-4A59-B153-00146F6407B9}"
-	ProjectSection(SolutionItems) = preProject
-		Performance1.psess = Performance1.psess
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gamecapture", "dxc\gamecapture\gamecapture.vcxproj", "{B305ABA2-57F4-499A-A7B3-4C7866245CDB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{10BF8F8F-8B14-485C-89F7-8100D72D5CBB} = {10BF8F8F-8B14-485C-89F7-8100D72D5CBB}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ipc-util", "third_party\ipc-util\ipc-util.vcxproj", "{10BF8F8F-8B14-485C-89F7-8100D72D5CBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,8 +33,27 @@ Global
 		{20CAEBE5-A7EB-4224-827E-D03E9D30F0C1}.Release|x64.Build.0 = Release|x64
 		{20CAEBE5-A7EB-4224-827E-D03E9D30F0C1}.Release|x86.ActiveCfg = Release|Win32
 		{20CAEBE5-A7EB-4224-827E-D03E9D30F0C1}.Release|x86.Build.0 = Release|Win32
+		{B305ABA2-57F4-499A-A7B3-4C7866245CDB}.Debug|x64.ActiveCfg = Debug|x64
+		{B305ABA2-57F4-499A-A7B3-4C7866245CDB}.Debug|x64.Build.0 = Debug|x64
+		{B305ABA2-57F4-499A-A7B3-4C7866245CDB}.Debug|x86.ActiveCfg = Debug|Win32
+		{B305ABA2-57F4-499A-A7B3-4C7866245CDB}.Debug|x86.Build.0 = Debug|Win32
+		{B305ABA2-57F4-499A-A7B3-4C7866245CDB}.Release|x64.ActiveCfg = Release|x64
+		{B305ABA2-57F4-499A-A7B3-4C7866245CDB}.Release|x64.Build.0 = Release|x64
+		{B305ABA2-57F4-499A-A7B3-4C7866245CDB}.Release|x86.ActiveCfg = Release|Win32
+		{B305ABA2-57F4-499A-A7B3-4C7866245CDB}.Release|x86.Build.0 = Release|Win32
+		{10BF8F8F-8B14-485C-89F7-8100D72D5CBB}.Debug|x64.ActiveCfg = Debug|x64
+		{10BF8F8F-8B14-485C-89F7-8100D72D5CBB}.Debug|x64.Build.0 = Debug|x64
+		{10BF8F8F-8B14-485C-89F7-8100D72D5CBB}.Debug|x86.ActiveCfg = Debug|Win32
+		{10BF8F8F-8B14-485C-89F7-8100D72D5CBB}.Debug|x86.Build.0 = Debug|Win32
+		{10BF8F8F-8B14-485C-89F7-8100D72D5CBB}.Release|x64.ActiveCfg = Release|x64
+		{10BF8F8F-8B14-485C-89F7-8100D72D5CBB}.Release|x64.Build.0 = Release|x64
+		{10BF8F8F-8B14-485C-89F7-8100D72D5CBB}.Release|x86.ActiveCfg = Release|Win32
+		{10BF8F8F-8B14-485C-89F7-8100D72D5CBB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5A2DF718-AFCF-4049-94B3-7445D61CDA8E}
 	EndGlobalSection
 EndGlobal

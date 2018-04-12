@@ -1,112 +1,114 @@
-// include the basic windows header files and the Direct3D header files
-#include "stdafx.h"
 #include <windows.h>
 #include <d3d11.h>
 #include <d3d9types.h>
-#include "DebugFrameProvider.h"
-#include "WebcamFrameProvider.h"
-#include "DebugEffect.h"
-#include "MediaFoundation.h"
 #include <mfapi.h>
 #include <mfidl.h>
 
+#include "DebugFrameProvider.h"
+#include "DebugEffect.h"
 #include "Direct3D.h"
+#include "game_capture_provider.h"
+#include "WebcamFrameProvider.h"
+#include "MediaFoundation.h"
 
 #define SCREEN_WIDTH  1280
 #define SCREEN_HEIGHT 720
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+#define DEFAULT_WIDTH  1280
+#define DEFAULT_HEIGHT 720
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 // the entry point for any Windows program
-int WINAPI WinMain(HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR lpCmdLine,
-	int nCmdShow)
-{
-	HWND hWnd;
-	WNDCLASSEX wc;
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+    int nCmdShow) {
+  HWND hwnd;
+  WNDCLASSEX wc;
 
-	ZeroMemory(&wc, sizeof(WNDCLASSEX));
+  ZeroMemory(&wc, sizeof(WNDCLASSEX));
 
-	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc = WindowProc;
-	wc.hInstance = hInstance;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.lpszClassName = L"WindowClass";
+  wc.cbSize = sizeof(WNDCLASSEX);
+  wc.style = CS_HREDRAW | CS_VREDRAW;
+  wc.lpfnWndProc = WindowProc;
+  wc.hInstance = hInstance;
+  wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+  wc.lpszClassName = L"WindowClass";
 
-	RegisterClassEx(&wc);
+  RegisterClassEx(&wc);
 
-	RECT wr = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+  RECT wr = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+  AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
 
-	hWnd = CreateWindowEx(NULL,
-		L"WindowClass",
-		L"Direct3D Composition",
-		WS_OVERLAPPEDWINDOW,
-		300,
-		300,
-		wr.right - wr.left,
-		wr.bottom - wr.top,
-		NULL,
-		NULL,
-		hInstance,
-		NULL);
+  hwnd = CreateWindowEx(NULL,
+      L"WindowClass",
+      L"Direct3D Composition",
+      WS_OVERLAPPEDWINDOW,
+      100,
+      100,
+      wr.right - wr.left,
+      wr.bottom - wr.top,
+      NULL,
+      NULL,
+      hInstance,
+      NULL);
 
-	ShowWindow(hWnd, nCmdShow);
+  ShowWindow(hwnd, nCmdShow);
 
-	auto devices = MediaFoundation::GetVideoDevices();
-	for (auto it = devices.begin(); it != devices.end(); ++it) {
-		OutputDebugString(L"Neil --");
-		OutputDebugString(it->pFriendlyName);
-	}
+  // enumerate cameras
+  auto devices = MediaFoundation::GetVideoDevices();
+  for (auto it = devices.begin(); it != devices.end(); ++it) {
+    OutputDebugString(L"Neil --");
+    OutputDebugString(it->pFriendlyName);
+  }
 
-	Direct3D::GetInstance().Initialize(hWnd, SCREEN_WIDTH, SCREEN_HEIGHT);
-	Direct3D::GetInstance().Start();
+  Direct3D::GetInstance().Initialize(hwnd, SCREEN_WIDTH, SCREEN_HEIGHT);
+  Direct3D::GetInstance().Start();
 
-	//WebcamFrameProvider *webcam = new WebcamFrameProvider();
-	WebcamFrameProvider *webcam = new WebcamFrameProvider();
-	DebugEffect *debugEffect = new DebugEffect();
-	debugEffect->AddInputFrameProvider(webcam);
+  // WebcamFrameProvider *webcam = new WebcamFrameProvider();
+  // DebugEffect* debugEffect = new DebugEffect();
+  // debugEffect->AddInputFrameProvider(webcam);
+  // debugEffect->Initialize();
 
-	DebugFrameProvider *debugFp = new DebugFrameProvider(300, 300);
+  DebugFrameProvider* debug_fp = new DebugFrameProvider(300, 300);
+  GameCaptureProvider* gc_provider = new GameCaptureProvider(
+      Direct3D::GetInstance().GetDevice(),
+      Direct3D::GetInstance().GetDeviceContext());
 
-	debugEffect->Initialize();
-	//Direct3D::GetInstance().AddFrameProvider((FrameProvider<BGRAFrame> *)webcam, 0, 0);
-	Direct3D::GetInstance().AddFrameProvider((FrameProvider<BGRAFrame> *)webcam, 0, 0);
-	Direct3D::GetInstance().AddFrameProvider((FrameProvider<BGRAFrame> *)debugFp, 500, 20);
+  // Direct3D::GetInstance().AddFrameProvider(webcam, 0, 0);
+  Direct3D::GetInstance().AddFrameProvider(gc_provider, 0, 0);
+  Direct3D::GetInstance().AddFrameProvider(debug_fp, 500, 20);
 
-	MSG msg;
+  MSG msg;
 
-	while (TRUE)
-	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+  while (TRUE)
+  {
+    if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+    {
+      TranslateMessage(&msg);
+      DispatchMessage(&msg);
 
-			if (msg.message == WM_QUIT)
-				break;
-		}
-	}
+      if (msg.message == WM_QUIT)
+        break;
+    }
+  }
 
-	// clean up DirectX and COM
-	Direct3D::GetInstance().Cleanup();
+  // clean up DirectX and COM
+  Direct3D::GetInstance().Cleanup();
 
-	return 0;
+  return 0;
 }
 
 // this is the main message handler for the program
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message)
-	{
-	case WM_DESTROY:
-	{
-		PostQuitMessage(0);
-		return 0;
-	} break;
-	}
+  switch (message)
+  {
+    case WM_DESTROY:
+      {
+        PostQuitMessage(0);
+        return 0;
+      } break;
+  }
 
-	return DefWindowProc(hWnd, message, wParam, lParam);
+  return DefWindowProc(hwnd, message, wParam, lParam);
 }

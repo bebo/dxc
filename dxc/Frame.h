@@ -1,14 +1,19 @@
-#pragma once
-#include <d3d11.h>
-#include <d3d9types.h>
+#ifndef FRAME_H_
+#define FRAME_H_
 
-class Frame
-{
-public:
-	virtual UINT getWidth() = 0;
-	virtual UINT getHeight() = 0;
+enum PIXEL_FORMAT {
+    ARGB32 = 0
 };
 
+class Frame {
+  protected:
+    UINT width_;
+    UINT height_;
+    PIXEL_FORMAT pixel_format_;
 
+  public:
+    UINT GetWidth() { return width_; }
+    UINT GetHeight() { return height_; }
+};
 
-
+#endif

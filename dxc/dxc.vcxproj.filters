@@ -13,26 +13,26 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\FrameProviders">
-      <UniqueIdentifier>{1f516b6d-adae-476d-970b-35e6a4aed04b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\FrameProviders">
-      <UniqueIdentifier>{ac3874ad-cbb6-4486-8aac-93293482b69e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\shaders">
       <UniqueIdentifier>{5e2ea272-35cc-4aa6-a53a-4799c553d7fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\FrameProviders\Effects">
-      <UniqueIdentifier>{d5fc4c4f-1d13-44a2-a415-845bc3dec324}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FrameProviders\Effects">
-      <UniqueIdentifier>{85ce1729-6fa1-4d46-ae5c-7ab35795cc3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Frames">
+    <Filter Include="Source Files\frames">
       <UniqueIdentifier>{27816d3c-bdf4-48fe-9749-d348dd984e55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Frames">
+    <Filter Include="Source Files\frame_providers">
+      <UniqueIdentifier>{ac3874ad-cbb6-4486-8aac-93293482b69e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\frame_providers">
+      <UniqueIdentifier>{1f516b6d-adae-476d-970b-35e6a4aed04b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\frames">
       <UniqueIdentifier>{13005964-19b6-4103-96f5-7748a5aa0a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\frame_providers\effects">
+      <UniqueIdentifier>{85ce1729-6fa1-4d46-ae5c-7ab35795cc3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\frame_providers\effects">
+      <UniqueIdentifier>{d5fc4c4f-1d13-44a2-a415-845bc3dec324}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,9 +48,6 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dxc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Direct3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -58,10 +55,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DebugFrameProvider.h">
-      <Filter>Header Files\FrameProviders</Filter>
+      <Filter>Header Files\frame_providers</Filter>
     </ClInclude>
     <ClInclude Include="WebcamFrameProvider.h">
-      <Filter>Header Files\FrameProviders</Filter>
+      <Filter>Header Files\frame_providers</Filter>
     </ClInclude>
     <ClInclude Include="MediaFoundation.h">
       <Filter>Header Files</Filter>
@@ -70,25 +67,28 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FrameProvider.h">
-      <Filter>Header Files\FrameProviders</Filter>
+      <Filter>Header Files\frame_providers</Filter>
     </ClInclude>
     <ClInclude Include="Effect.h">
-      <Filter>Header Files\FrameProviders\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="Frame.h">
-      <Filter>Header Files\Frames</Filter>
-    </ClInclude>
-    <ClInclude Include="BGRAFrame.h">
-      <Filter>Header Files\Frames</Filter>
+      <Filter>Header Files\frame_providers\effects</Filter>
     </ClInclude>
     <ClInclude Include="ShaderLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DebugEffect.h">
-      <Filter>Header Files\FrameProviders\Effects</Filter>
+      <Filter>Header Files\frame_providers\effects</Filter>
     </ClInclude>
-    <ClInclude Include="YUVFrame.h">
-      <Filter>Header Files\Frames</Filter>
+    <ClInclude Include="game_capture_provider.h">
+      <Filter>Header Files\frame_providers</Filter>
+    </ClInclude>
+    <ClInclude Include="native_frame.h">
+      <Filter>Header Files\frames</Filter>
+    </ClInclude>
+    <ClInclude Include="frame.h">
+      <Filter>Header Files\frames</Filter>
+    </ClInclude>
+    <ClInclude Include="game_capture.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -102,10 +102,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DebugFrameProvider.cpp">
-      <Filter>Source Files\FrameProviders</Filter>
+      <Filter>Source Files\frame_providers</Filter>
     </ClCompile>
     <ClCompile Include="WebcamFrameProvider.cpp">
-      <Filter>Source Files\FrameProviders</Filter>
+      <Filter>Source Files\frame_providers</Filter>
     </ClCompile>
     <ClCompile Include="MediaFoundation.cpp">
       <Filter>Source Files</Filter>
@@ -113,17 +113,20 @@
     <ClCompile Include="MediaFoundationDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BGRAFrame.cpp">
-      <Filter>Source Files\Frames</Filter>
-    </ClCompile>
     <ClCompile Include="ShaderLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DebugEffect.cpp">
-      <Filter>Source Files\FrameProviders\Effects</Filter>
+      <Filter>Source Files\frame_providers\effects</Filter>
     </ClCompile>
-    <ClCompile Include="YUVFrame.cpp">
-      <Filter>Source Files\Frames</Filter>
+    <ClCompile Include="native_frame.cc">
+      <Filter>Source Files\frames</Filter>
+    </ClCompile>
+    <ClCompile Include="game_capture_provider.cc">
+      <Filter>Source Files\frame_providers</Filter>
+    </ClCompile>
+    <ClCompile Include="game_capture.cc">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

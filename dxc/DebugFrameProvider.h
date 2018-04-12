@@ -1,21 +1,19 @@
 #pragma once
+
 #include "FrameProvider.h"
-#include "BGRAFrame.h"
+#include "native_frame.h"
 
-class DebugFrameProvider: public FrameProvider<BGRAFrame>
+class DebugFrameProvider : public FrameProvider<NativeFrame>
 {
-private:
-	UINT x = 5, y = 5, vx = 1, vy = 1;
-	UINT width, height;
-	ID3D11Texture2D *tex;
-public:
-	DebugFrameProvider(UINT width, UINT height);
-	~DebugFrameProvider() {};
-	// Inherited via FrameProvider
-	virtual BGRAFrame * GetFrame(ID3D11DeviceContext *devcon) override;
+  private:
+    UINT x = 5, y = 5, vx = 1, vy = 1;
+    ID3D11Texture2D* tex;
 
-	// Inherited via FrameProvider
-	virtual UINT GetWidth() override;
-	virtual UINT GetHeight() override;
+  public:
+    DebugFrameProvider(UINT width, UINT height);
+    ~DebugFrameProvider() {};
+
+    // Inherited via FrameProvider
+    NativeFrame* GetFrame(ID3D11DeviceContext *devcon) override;
 };
 

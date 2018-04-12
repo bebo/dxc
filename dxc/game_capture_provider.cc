@@ -51,8 +51,9 @@ NativeFrame* GameCaptureProvider::GetFrame(ID3D11DeviceContext* device_context) 
 
     if (hr == S_OK) {
       D3D11_TEXTURE2D_DESC texture_desc = { 0 };
-      D3D11_SHADER_RESOURCE_VIEW_DESC shader_desc;
       shared_texture_->GetDesc(&texture_desc);
+
+      D3D11_SHADER_RESOURCE_VIEW_DESC shader_desc;
       memset(&shader_desc, 0, sizeof(shader_desc));
       shader_desc.Format = texture_desc.Format;
       shader_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -64,7 +65,6 @@ NativeFrame* GameCaptureProvider::GetFrame(ID3D11DeviceContext* device_context) 
   if (!shared_texture_) {
     return NULL;
   }
-
 
   return new NativeFrame(shared_texture_, shared_shader_view_);
 }

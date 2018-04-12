@@ -170,7 +170,7 @@ static TEXTURECOORD coord4 = { 0.0f, 1.0f }; //bottom left
 
 void Direct3D::DoRender(void)
 {
-  FLOAT color[4] = { 0.6f, 0.1f, 0.3f, 0.0f };
+  FLOAT color[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
   devcon->ClearRenderTargetView(render_target_buffer_, color);
 
   devcon->VSSetShader(mixerShaderInfo.vertexShader, 0, 0);

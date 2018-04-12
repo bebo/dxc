@@ -1,6 +1,7 @@
 #pragma once
 #include "FrameProvider.h"
 #include "Direct3D.h"
+
 template <class InFrame, class OutFrame>
 class Effect : public FrameProvider<OutFrame>
 {
@@ -19,7 +20,7 @@ public:
 };
 
 template<class InFrame, class OutFrame>
-OutFrame * Effect<InFrame, OutFrame>::GetFrame(ID3D11DeviceContext * devcon)
+OutFrame* Effect<InFrame, OutFrame>::GetFrame(ID3D11DeviceContext * devcon)
 {
 	Prepare();
 	OutFrame* frame = DrawFrame();

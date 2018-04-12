@@ -26,11 +26,17 @@ void Direct3D::Initialize(HWND hWnd, long width, long height)
   scd.Windowed = TRUE;                                   // windowed/full-screen mode
   scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;    // allow full-screen switching
 
+  UINT flags = 0;
+
+#ifdef _DEBUG
+  flags |= D3D11_CREATE_DEVICE_FLAG::D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
   // create a device, device context and swap chain using the information in the scd struct
   D3D11CreateDeviceAndSwapChain(NULL,
       D3D_DRIVER_TYPE_HARDWARE,
       NULL,
-      D3D11_CREATE_DEVICE_FLAG::D3D11_CREATE_DEVICE_DEBUG,
+      flags,
       NULL,
       NULL,
       D3D11_SDK_VERSION,
@@ -42,15 +48,15 @@ void Direct3D::Initialize(HWND hWnd, long width, long height)
 
 
   // get the address of the back buffer
-  ID3D11Texture2D *pBackBuffer;
-  swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+  ID3D11Texture2D *prender_target_buffer_;
+  swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&prender_target_buffer_);
 
   // use the back buffer address to create the render target
-  dev->CreateRenderTargetView(pBackBuffer, NULL, &backbuffer);
-  pBackBuffer->Release();
+  dev->CreateRenderTargetView(prender_target_buffer_, NULL, &render_target_buffer_);
+  prender_target_buffer_->Release();
 
   // set the render target as the back buffer
-  devcon->OMSetRenderTargets(1, &backbuffer, NULL);
+  devcon->OMSetRenderTargets(1, &render_target_buffer_, NULL);
 
   // Set the viewport
   D3D11_VIEWPORT viewport;
@@ -79,9 +85,8 @@ void Direct3D::Cleanup()
 {
   swapchain->SetFullscreenState(FALSE, NULL);    // switch to windowed mode
 
-  pVBuffer->Release();
   swapchain->Release();
-  backbuffer->Release();
+  render_target_buffer_->Release();
   dev->Release();
   devcon->Release();
   //TODO cleanup shader library
@@ -165,21 +170,15 @@ static TEXTURECOORD coord4 = { 0.0f, 1.0f }; //bottom left
 
 void Direct3D::DoRender(void)
 {
-  FLOAT color[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+  FLOAT color[4] = { 0.6f, 0.1f, 0.3f, 0.0f };
+  devcon->ClearRenderTargetView(render_target_buffer_, color);
 
   devcon->VSSetShader(mixerShaderInfo.vertexShader, 0, 0);
   devcon->PSSetShader(mixerShaderInfo.pixelShader, 0, 0);
   devcon->IASetInputLayout(mixerShaderInfo.inputLayout);
 
-  devcon->ClearRenderTargetView(backbuffer, color);
-
-  // get the address of the back buffer
-  //TODO: keep this around
-  ID3D11Texture2D *pBackBuffer;
-  swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-
   // set the render target as the back buffer
-  devcon->OMSetRenderTargets(1, &backbuffer, NULL);
+  devcon->OMSetRenderTargets(1, &render_target_buffer_, NULL);
 
   for (auto it = frameProviders.begin(); it != frameProviders.end(); ++it) {
     FrameProviderInformation fpInfo = *it;
@@ -206,33 +205,14 @@ void Direct3D::DoRender(void)
     D3D11_BUFFER_DESC bd;
     ZeroMemory(&bd, sizeof(bd));
     bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-    bd.ByteWidth = sizeof(VERTEX) * 6;             // size is the VERTEX struct * 3
+    bd.ByteWidth = sizeof(VERTEX) * 6;             // size is the VERTEX struct * 6
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
     bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
     dev->CreateBuffer(&bd, NULL, &pVBuffer);       // create the buffer
 
-    //TODO: get rid of cast
-    //also smart pointers for frames
-    NativeFrame *frame = fp->GetFrame(devcon);
-    if (frame == NULL) continue;
-
-    ID3D11Texture2D *fpTex = frame->GetTexture();
-    ID3D11ShaderResourceView *svr;
-
-    //unbind
-    ID3D11ShaderResourceView *nullSvr[1] = { NULL };
-    ID3D11RenderTargetView *nullRT[1] = { NULL };
-    devcon->PSSetShaderResources(0, 1, nullSvr);
-    devcon->OMSetRenderTargets(1, nullRT, NULL);
-
-    dev->CreateShaderResourceView(fpTex, NULL, &svr);
-    devcon->PSSetShaderResources(0, 1, &svr);
-
-    devcon->OMSetRenderTargets(1, &backbuffer, NULL);
-
     D3D11_MAPPED_SUBRESOURCE ms;
-    devcon->Map(pVBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);    // map the buffer
+    HRESULT hr = devcon->Map(pVBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);    // map the buffer
     memcpy(ms.pData, vertices, sizeof(vertices));                       // copy the data
     devcon->Unmap(pVBuffer, NULL);                                      // unmap the buffer
 
@@ -241,26 +221,29 @@ void Direct3D::DoRender(void)
     UINT offset = 0;
     devcon->IASetVertexBuffers(0, 1, &pVBuffer, &stride, &offset);
 
+    //TODO: get rid of cast
+    //also smart pointers for frames
+    NativeFrame *frame = fp->GetFrame(devcon);
+    if (frame == NULL) continue;
+
+    ID3D11Texture2D* fpTex = frame->GetTexture();
+    ID3D11ShaderResourceView* svr = frame->GetShaderResourceView();
+
+    if (svr == NULL) {
+      dev->CreateShaderResourceView(fpTex, NULL, &svr);
+    }
+
+    devcon->PSSetShaderResources(0, 1, &svr);
+
     // select which primtive type we are using
-    devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    devcon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     // draw the vertex buffer to the back buffer
     devcon->Draw(6, 0);
-
-    // delete frame;
-    if (svr) {
-       svr->Release();
-    }
 
     pVBuffer->Release();
   }
 
   // switch the back buffer and the front buffer
   swapchain->Present(0, 0);
-
-  //unset render target
-  ID3D11RenderTargetView *nullRT[1] = { NULL };
-  devcon->OMSetRenderTargets(1, nullRT, NULL);
-  ID3D11ShaderResourceView *nullSvr[1] = { NULL };
-  devcon->PSSetShaderResources(0, 1, nullSvr);
 }

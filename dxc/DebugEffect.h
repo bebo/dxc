@@ -2,6 +2,7 @@
 
 #include "Effect.h"
 #include "ShaderLibrary.h"
+#include "FrameProvider.h"
 #include "native_frame.h"
 
 class DebugEffect : public Effect <NativeFrame, NativeFrame>

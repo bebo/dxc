@@ -7,17 +7,21 @@ template <class T>
 class FrameProvider
 {
   public:
-  UINT width_;
-  UINT height_;
+    FrameProvider(UINT width, UINT height) : width_(width), height_(height) {};
+    FrameProvider() : FrameProvider(0, 0) {};
 
-  UINT GetWidth() {
-    return width_;
-  };
+    UINT GetWidth() {
+      return width_;
+    };
 
-  UINT GetHeight() {
-    return height_;
-  };
+    UINT GetHeight() {
+      return height_;
+    };
 
-  virtual T* GetFrame(ID3D11DeviceContext* devcon) = 0;
+    virtual T* GetFrame(ID3D11DeviceContext* devcon) = 0;
+
+  protected:
+    UINT width_;
+    UINT height_;
 };
 

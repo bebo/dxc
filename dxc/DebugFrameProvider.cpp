@@ -1,9 +1,8 @@
 #include "DebugFrameProvider.h"
 #include "direct3d.h"
 
-DebugFrameProvider::DebugFrameProvider(UINT width, UINT height) {
-  width_ = width;
-  height_ = height;
+DebugFrameProvider::DebugFrameProvider(UINT width, UINT height)
+  : FrameProvider(width, height) {
   tex = Direct3D::GetInstance().CreateDynamicTexture(width_, height_, DXGI_FORMAT_B8G8R8A8_UNORM);
 }
 
@@ -28,6 +27,7 @@ NativeFrame* DebugFrameProvider::GetFrame(ID3D11DeviceContext * devcon) {
     memset((char *)resource.pData + (i * resource.RowPitch + 4 * x), 127, 4 * ballDim);
   }
   devcon->Unmap(tex, 0);
+
   return new NativeFrame(tex);
 }
 

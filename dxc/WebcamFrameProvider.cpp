@@ -39,7 +39,7 @@ void WebcamFrameProvider::MakeTexture(UINT width, UINT height)
 }
 
 WebcamFrameProvider::WebcamFrameProvider()
-{
+    : FrameProvider(480, 480) {
   //TODO: doesn't even matter
   MakeTexture(480, 480);
   MediaFoundation::EnumerateVideoDevices(&source);

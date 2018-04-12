@@ -7,6 +7,7 @@
 DebugEffect::DebugEffect()
 {
 }
+    
 
 DebugEffect::~DebugEffect()
 {

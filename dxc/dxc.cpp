@@ -70,13 +70,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
   // debugEffect->Initialize();
 
   DebugFrameProvider* debug_fp = new DebugFrameProvider(300, 300);
+  DebugFrameProvider* debug_fp_2 = new DebugFrameProvider(200, 100);
   GameCaptureProvider* gc_provider = new GameCaptureProvider(
       Direct3D::GetInstance().GetDevice(),
-      Direct3D::GetInstance().GetDeviceContext());
+      Direct3D::GetInstance().GetDeviceContext(),
+      1280, 720);
 
   // Direct3D::GetInstance().AddFrameProvider(webcam, 0, 0);
   Direct3D::GetInstance().AddFrameProvider(gc_provider, 0, 0);
   Direct3D::GetInstance().AddFrameProvider(debug_fp, 500, 20);
+  Direct3D::GetInstance().AddFrameProvider(debug_fp_2, 100, 60);
 
   MSG msg;
 
